@@ -100,6 +100,10 @@ One row from a real run:
 }
 ```
 
+## n8n integration
+
+Available as an n8n community node, **[n8n-nodes-google-lens-api](https://www.npmjs.com/package/n8n-nodes-google-lens-api)**. In n8n: Settings, Community Nodes, install `n8n-nodes-google-lens-api`, then use it in any workflow (it also works as an AI Agent tool).
+
 ## People also search for
 
 ### Is this a reverse image search API with a free tier?
