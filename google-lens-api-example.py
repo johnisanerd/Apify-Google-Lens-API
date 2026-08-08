@@ -13,12 +13,15 @@ Get your free Apify API key at: https://apify.com?fpr=9n7kx3
 Examples:
   uv run python google-lens-api-example.py
   uv run python google-lens-api-example.py --example stolen_check
+  uv run python google-lens-api-example.py --example upload --image path/to/photo.jpg
 """
 
 from __future__ import annotations
 
 import argparse
+import base64
 import os
+from pathlib import Path
 from typing import Any
 
 from apify_client import ApifyClient
@@ -82,14 +85,44 @@ def run_product_match(client: ApifyClient) -> None:
     _print_items(items)
 
 
+def run_upload(client: ApifyClient, image_path: str) -> None:
+    """Search by a LOCAL image file, no public URL needed.
+
+    The file's bytes are base64-encoded and sent as image_base64; the API
+    stages them privately behind a signed link and runs the lookup. You can
+    pass several entries to batch up to 10 images per run (about 6 MB of
+    images total on this path, because the platform caps run input at 9 MB;
+    bigger files go through the console's Upload images field instead).
+    """
+    path = Path(image_path)
+    if not path.is_file():
+        raise SystemExit(f"Image file not found: {path}")
+    encoded = base64.b64encode(path.read_bytes()).decode()
+    run_input: dict[str, Any] = {
+        "image_base64": [encoded],  # add more entries to batch several images
+        "search_type": "visual_matches",
+        "max_results": 3,  # small on purpose to keep the first run inexpensive
+    }
+    run = client.actor(ACTOR_ID).call(run_input=run_input)
+    if run is None:
+        raise SystemExit("The Actor run did not return a result.")
+    items = list(client.dataset(run.default_dataset_id).iterate_items())
+    _print_items(items)
+
+
 def main() -> None:
     """Dispatch a quick-start or use-case recipe."""
     parser = argparse.ArgumentParser(description="Google Lens API examples")
     parser.add_argument(
         "--example",
         default="default",
-        choices=['default', 'stolen_check', 'product_match'],
+        choices=['default', 'stolen_check', 'product_match', 'upload'],
         help="Which recipe to run (see README Recipes).",
+    )
+    parser.add_argument(
+        "--image",
+        default="sample-image.jpg",
+        help="Local image file for the upload recipe (defaults to the bundled sample).",
     )
     args = parser.parse_args()
 
@@ -98,6 +131,9 @@ def main() -> None:
         raise SystemExit("Set APIFY_API_TOKEN in .env or the environment.")
 
     client = ApifyClient(token)
+    if args.example == "upload":
+        run_upload(client, args.image)
+        return
     dispatch = {
         "default": run_default,
         "stolen_check": run_stolen_check,

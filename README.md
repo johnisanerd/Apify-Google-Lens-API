@@ -2,7 +2,7 @@
 
 Actor: [johnvc/google-lens-api](https://apify.com/johnvc/google-lens-api?fpr=9n7kx3) · [Input schema](https://apify.com/johnvc/google-lens-api/input-schema?fpr=9n7kx3)
 
-This repo shows two ways to use the [Google Lens API](https://apify.com/johnvc/google-lens-api?fpr=9n7kx3) on Apify: a Python quick start and MCP installs for five AI clients. Give it any public image URL and get back visually similar results, shoppable product matches with prices, or every page carrying the exact same image, which is the bulk reverse image search photographers use for attribution checks.
+This repo shows two ways to use the [Google Lens API](https://apify.com/johnvc/google-lens-api?fpr=9n7kx3) on Apify: a Python quick start and MCP installs for five AI clients. Send an image straight from your computer, base64 from code, or any public image URL, and get back visually similar results, shoppable product matches with prices, or every page carrying the exact same image, which is the bulk reverse image search photographers use for attribution checks. Most reverse image tools demand a public URL; this one does not.
 
 ## Video Walkthrough
 
@@ -10,7 +10,7 @@ This repo shows two ways to use the [Google Lens API](https://apify.com/johnvc/g
 
 ### Text walkthrough
 
-The google lens api takes an image_url plus a search_type. visual_matches is the general reverse image search and returns about 59 rows per lookup with title, source, url, thumbnail and the full image link. products returns shoppable listings with price, currency and inStock. exact_matches returns up to 400 pages carrying the identical file, which powers the stolen-photo check recipe in this repo. Exact-match coverage varies run to run at the source, so an empty result finishes clean rather than erroring; retry or switch type.
+The google lens api takes an image (a local file via image_base64 or the console upload field, or a public image_url) plus a search_type. visual_matches is the general reverse image search and returns about 59 rows per lookup with title, source, url, thumbnail and the full image link. products returns shoppable listings with price, currency and inStock. exact_matches returns up to 400 pages carrying the identical file, which powers the stolen-photo check recipe in this repo. Exact-match coverage varies run to run at the source, so an empty result finishes clean rather than erroring; retry or switch type.
 
 ## Quick Start
 
@@ -30,8 +30,28 @@ Run a specific recipe:
 uv run python google-lens-api-example.py --example stolen_check
 ```
 
+### Search by a local file, no public URL needed
+
+The repo bundles `sample-image.jpg`, so this works out of the box:
+
+```bash
+uv run python google-lens-api-example.py --example upload
+uv run python google-lens-api-example.py --example upload --image path/to/your/photo.jpg
+```
+
+Under the hood the file is base64-encoded and sent as `image_base64`; the API stages it privately behind a signed link and runs the lookup. Batch up to 10 images per run by passing more entries (about 6 MB of images per run on the base64 path; the console's Upload images field takes files up to 20 MB each, 30 MB per run).
+
+```python
+import base64
+from pathlib import Path
+
+encoded = base64.b64encode(Path("photo.jpg").read_bytes()).decode()
+run_input = {"image_base64": [encoded], "search_type": "visual_matches", "max_results": 3}
+```
+
 ## Why use this API
 
+- Upload local files or send base64, no public URL needed, up to 10 images per run
 - Three search types behind one input: visual matches, products, exact matches
 - Real destination URLs with source site names for every match
 - Product matches carry price, currency and stock where the retailer publishes them
@@ -42,6 +62,7 @@ uv run python google-lens-api-example.py --example stolen_check
 
 The example script ships ready-made recipes that mirror this API's main use cases:
 
+- **Search by a local file** (`--example upload`): Base64-encodes an image from your disk and looks it up, no public URL needed.
 - **Check if a photo is being reused** (`--example stolen_check`): Runs exact matches over one image and lists every page carrying it.
 - **Visual product search** (`--example product_match`): Turns a product photo into shoppable listings with prices.
 
