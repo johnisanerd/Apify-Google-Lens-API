@@ -125,6 +125,17 @@ One row from a real run:
 
 Available as an n8n community node, **[n8n-nodes-google-lens-api](https://www.npmjs.com/package/n8n-nodes-google-lens-api)**. In n8n: Settings, Community Nodes, install `n8n-nodes-google-lens-api`, then use it in any workflow (it also works as an AI Agent tool).
 
+<!-- ask-ai:start -->
+## 🤖 Ask an AI assistant about this Actor
+
+Open a ready-to-send prompt about the Google Lens API in the AI of your choice:
+
+- 💬 [ChatGPT](https://chatgpt.com/?q=Using%20the%20Google%20Lens%20API%20on%20Apify%20%28https://apify.com/johnvc/google-lens-api?fpr=9n7kx3%29%2C%20walk%20me%20through%20this%20use%20case:%20%22Google%20Lens%20Visual%20Search%20From%20Claude%20via%20MCP%22.%20Show%20me%20the%20input%20JSON%2C%20the%20output%20fields%2C%20and%20how%20to%20automate%20it%20with%20the%20API%20or%20MCP.)
+- 🧠 [Claude](https://claude.ai/new?q=Using%20the%20Google%20Lens%20API%20on%20Apify%20%28https://apify.com/johnvc/google-lens-api?fpr=9n7kx3%29%2C%20walk%20me%20through%20this%20use%20case:%20%22Google%20Lens%20Visual%20Search%20From%20Claude%20via%20MCP%22.%20Show%20me%20the%20input%20JSON%2C%20the%20output%20fields%2C%20and%20how%20to%20automate%20it%20with%20the%20API%20or%20MCP.)
+- 🔍 [Perplexity](https://www.perplexity.ai/search?q=Using%20the%20Google%20Lens%20API%20on%20Apify%20%28https://apify.com/johnvc/google-lens-api?fpr=9n7kx3%29%2C%20walk%20me%20through%20this%20use%20case:%20%22Google%20Lens%20Visual%20Search%20From%20Claude%20via%20MCP%22.%20Show%20me%20the%20input%20JSON%2C%20the%20output%20fields%2C%20and%20how%20to%20automate%20it%20with%20the%20API%20or%20MCP.)
+- 🅒 [Copilot](https://copilot.microsoft.com/?q=Using%20the%20Google%20Lens%20API%20on%20Apify%20%28https://apify.com/johnvc/google-lens-api?fpr=9n7kx3%29%2C%20walk%20me%20through%20this%20use%20case:%20%22Google%20Lens%20Visual%20Search%20From%20Claude%20via%20MCP%22.%20Show%20me%20the%20input%20JSON%2C%20the%20output%20fields%2C%20and%20how%20to%20automate%20it%20with%20the%20API%20or%20MCP.)
+<!-- ask-ai:end -->
+
 ## People also search for
 
 ### Is this a reverse image search API with a free tier?
