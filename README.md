@@ -281,4 +281,4 @@ More help: https://docs.apify.com/platform/integrations/mcp
 
 Made with care by [johnvc on Apify](https://apify.com/johnvc?fpr=9n7kx3). This example repo is part of [Alpha OSINT](https://www.alphaosint.com), toolset of financial and operations data sources and APIs.
 
-Last Updated: 2026.09.22
+Last Updated: 2026.09.25
